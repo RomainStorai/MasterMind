@@ -3,7 +3,7 @@
 #include <time.h>
 #include <stdbool.h>
 
-void saisie(int monde[11][4])
+/*void saisie(int monde[11][4])
 {
 	int ut1, ut2, ut3, ut4, nbUt, rt, i, j, v, w, x, y;
 
@@ -35,7 +35,7 @@ void saisie(int monde[11][4])
 	printf("ut2 = %d\n", ut2);
 	printf("ut3 = %d\n", ut3);
 	printf("ut4 = %d\n", ut4);*/
-	for(i=0;i<11;i++)
+	/*for(i=0;i<11;i++)
 	{
 		for(j=0;j<4;j++)
 		{
@@ -52,7 +52,7 @@ void saisie(int monde[11][4])
 	{
 		monde[i][0] = rand()%6+1;
 	}*/
-	monde[0][0] = v;
+	/*monde[0][0] = v;
 	monde[0][1] = w;
 	monde[0][2] = x;
 	monde[0][3] = y;
@@ -180,13 +180,66 @@ void partie(int monde[11][4])
 		printf("Dommage! n'abandonnes pas si vite, reesaye a nouveau ! =)");
 	}
 }
+*/
+
+int nbTour,win,v,w,x,y; 
+int tour[10][3];
+int saisie_table[3];
+
+static void partie() {
+	nbTour = 1;
+	win = 0;
+	randomize(); // Générer les 4 chiffres aléatoirement
+	while (nbTour < 10 || win < 4) { // Boucle de partie
+		system("cls");
+		printf("                 || Bonjour ||\n__xX Bienvenue sur le Projet Minster Mind version 1.1.0 Xx__\n  || Code Par Alexis STORAI (081) et Emerik ROYER (081) ||\n");
+		demander_saisie();
+
+	}
+}
+
+
+
+static void demander_saisie() {
+	int saisie;
+	printf("Saisissez votre serie de chiffres compris entre 1 et 6:\n");
+	scanf("%d",&saisie);
+	decompose_saisie(saisie);
+	while (saisie_table[0] < 1 || saisie_table[0] > 6 || saisie_table[1] < 1 || saisie_table[1] > 6 || saisie_table[2] < 1 || saisie_table[2] > 6 || saisie_table[3] < 1 || saisie_table[3] > 6) {
+		printf("Mauvaise saisie\n Veuillez reecrire votre serie de chiffre compris entre 1 et 6 :\n");
+		scanf("%d",&saisie);
+		decompose_saisie(saisie);
+	}
+	tour[nbTour - 1][0] = saisie_table[0];
+	tour[nbTour - 1][1] = saisie_table[1];
+	tour[nbTour - 1][2] = saisie_table[2];
+	tour[nbTour - 1][3] = saisie_table[3];
+}
+
+static void decompose_saisie(int saisie) {
+	saisie_table[0] = saisie/1000;
+	saisie = saisie%1000;
+	saisie_table[1] = saisie/100;
+	saisie = saisie%100;
+	saisie_table[2] = saisie/10;
+	saisie = saisie%10;
+	saisie_table[3] = saisie;
+}
+
+static int randomize() {
+	srand(time(NULL));
+	v = rand()%6+1;
+	w = rand()%6+1;
+	x = rand()%6+1;
+	y = rand()%6+1;
+	return 0;
+}
+
 
 int main()
 {
-	int monde[11][4];
-	system("cls");
-	printf("                 || Bonjour ||\n__xX Bienvenue sur le Projet Minster Mind version 1.1.0 Xx__\n  || Code Par Alexis STORAI (081) et Emerik ROYER (081) ||\n");
-	saisie(monde);
-	partie(monde);
+	//saisie(monde);
+	//partie(monde);
+	partie();
 	return 0;
 }
