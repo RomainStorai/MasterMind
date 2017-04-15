@@ -5,11 +5,10 @@
 
 // Initialisation
 int nbTour,win; 
-int tour[10][5];
-int saisie_table[3];
-int combinaison[3];
+int tour[11][6];
+int saisie_table[4];
+int combinaison[4];
 
-void partie();
 void demander_saisie();
 void decompose_saisie();
 void randomize();
@@ -19,53 +18,7 @@ void regles();
 void retourner_menu();
 void sauvegarder_saisie();
 void calculer_points();
-
-
-
-// Fonction pour faire une partie
-void partie() {
-	int i;
-
-	randomize(); // Générer les 4 chiffres aléatoirement
-	win = 0;
-	nbTour = 1;
-
-	printf("Avant for\n");
-	// Boucle de partie
-	for (nbTour = 1; i<=10;nbTour++) {
-		win = 0;
-
-		printf("\nT%d\n", nbTour);
-		//system("cls");
-		printf("\t \t --- MASTERMIND (Essai %d/10) ---\n", nbTour);
-
-		/*while (i<4) {
-			printf("%d", combinaison[i]);
-			i++;
-		}*/
-		printf("\nT%d\n", nbTour);
-
-		demander_saisie();
-		printf("\nT%d\n", nbTour);
-		//sauvegarder_saisie();
-		printf("\nT%d\n", nbTour);
-		//calculer_points();
-		printf("\nT%d\n", nbTour);
-
-		if (win >= 4) {
-			printf("FIN\n");
-			return;
-		}
-	}
-	printf("après for\n");
-	// Fin de la partie
-	//system("cls");
-	printf("\t \t --- MASTERMIND (Fin de la partie !) ---\n\n");
-	if (nbTour > 10) printf("Dommage :( ! N'abandonnez pas si vite, reesayez a nouveau ! =)\n\n");
-	if (win > 3) printf("Felicitations, c'est gagne ! Vous avez trouve la bonne combinaison en %d essais !\n\n", nbTour);
-	retourner_menu();
-}
-
+void partie();
 
 // Fonction pour gérer la saisie des nombres
 void demander_saisie() {
@@ -119,10 +72,50 @@ void calculer_points() {
 // Permet de générer les nombres d'une partie
 void randomize() {
 	srand(time(NULL));
-	combinaison[0] = rand()%6+1;
-	combinaison[1] = rand()%6+1;
-	combinaison[2] = rand()%6+1;
-	combinaison[3] = rand()%6+1;
+	combinaison[0] = (rand()%6) + 1;
+	combinaison[1] = (rand()%6) + 1;
+	combinaison[2] = (rand()%6) + 1;
+	combinaison[3] = (rand()%6) + 1;
+}
+
+// Fonction pour faire une partie
+void partie() {
+	nbTour = 1;
+	win = 0;
+
+	randomize(); // Générer les 4 chiffres aléatoirement
+
+	// Boucle de partie
+	while (nbTour <= 10 && win < 4) {
+		win = 0;
+		//system("cls");
+		printf("\t \t --- MASTERMIND (Essai %d/10) ---\n", nbTour);
+
+		for (int i = 0; i < 4; ++i) 
+			printf("%d", combinaison[i]);
+		printf("\n");
+
+		demander_saisie();
+		sauvegarder_saisie();
+		calculer_points();
+		
+		for (int i = 0; i < tour[nbTour - 1][4] + 1; ++i) 
+			printf("o", combinaison[i], i);
+		printf("\n");
+		for (int i = 0; i < tour[nbTour - 1][5] + 1; ++i) 
+			printf("x", combinaison[i], i);
+		printf("\n");
+
+		nbTour++;
+	}
+
+	// Fin de la partie
+	//system("cls");
+	printf("\t \t --- MASTERMIND (Fin de la partie !) ---\n\n");
+	
+	if (nbTour > 10) printf("Dommage :( ! N'abandonnez pas si vite, reesayez a nouveau ! =)\n\n");
+	if (win > 3) printf("Felicitations, c'est gagne ! Vous avez trouve la bonne combinaison en %d essais !\n\n", nbTour);
+	retourner_menu();
 }
 
 // Menu
