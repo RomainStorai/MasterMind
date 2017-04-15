@@ -90,7 +90,7 @@ void partie() {
 	// Boucle de partie
 	while (nbTour <= 10 && win < 4) {
 		win = 0;
-		//system("cls");
+		system("cls");
 		printf("\t \t --- MASTERMIND (Essai %d/10) ---\n", nbTour);
 
 		for (int i = 0; i < 4; ++i) 
@@ -112,7 +112,7 @@ void partie() {
 	}
 
 	// Fin de la partie
-	//system("cls");
+	system("cls");
 	printf("\t \t --- MASTERMIND (Fin de la partie !) ---\n\n");
 	
 	if (nbTour > 10) printf("Dommage :( ! N'abandonnez pas si vite, reesayez a nouveau ! =)\n\n");
