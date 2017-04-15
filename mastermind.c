@@ -18,6 +18,7 @@ void regles();
 void retourner_menu();
 void sauvegarder_saisie();
 void calculer_points();
+void afficher_image();
 void partie();
 
 // Test
@@ -52,6 +53,23 @@ void sauvegarder_saisie() {
 	tour[atour - 1][1] = saisie_table[1];
 	tour[atour - 1][2] = saisie_table[2];
 	tour[atour - 1][3] = saisie_table[3];
+}
+
+// Permet d'afficher le tableau
+void afficher_tableau() {
+	for (int i = 0; i < 10; ++i) {
+		if (i >= 11) {
+			printf("%d. | ", i + 1);
+		} else {
+			printf("%d.  | ", i + 1);
+		}
+		if (i <= nbTour - 2) {
+			printf("%d | %d | %d | %d |   ", tour[i][0], tour[i][1], tour[i][2], tour[i][3]);
+			for (int y = 0; y < tour[i][4]; y++) printf("x");
+			for (int z = 0; z < tour[i][5]; z++) printf("o");
+		}
+		printf("\n");
+	}
 }
 
 // Permet de calculer les points de la ligne
@@ -91,20 +109,22 @@ void partie() {
 	while (nbTour <= 10 && win < 4) {
 		win = 0;
 		system("cls");
-		printf("\t \t --- MASTERMIND (Essai %d/10) ---\n", nbTour);
+		afficher_image();
+		printf("\t \t --- Essai %d/10 ---\n\n", nbTour);
 
 		for (int i = 0; i < 4; ++i) 
 			printf("%d", combinaison[i]);
 		printf("\n");
 
+		afficher_tableau();
 		demander_saisie();
 		sauvegarder_saisie();
 		calculer_points();
 		
-		for (int i = 0; i < tour[nbTour - 1][4] + 1; ++i) 
+		for (int i = 0; i < tour[nbTour - 1][4]; ++i) 
 			printf("o", combinaison[i], i);
 		printf("\n");
-		for (int i = 0; i < tour[nbTour - 1][5] + 1; ++i) 
+		for (int i = 0; i < tour[nbTour - 1][5]; ++i) 
 			printf("x", combinaison[i], i);
 		printf("\n");
 
@@ -113,8 +133,11 @@ void partie() {
 
 	// Fin de la partie
 	system("cls");
-	printf("\t \t --- MASTERMIND (Fin de la partie !) ---\n\n");
+	afficher_image();
+	printf("\t \t --- Fin de la partie ! ---\n\n");
 	
+	afficher_tableau();
+
 	if (nbTour > 10) printf("Dommage :( ! N'abandonnez pas si vite, reesayez a nouveau ! =)\n\n");
 	if (win > 3) printf("Felicitations, c'est gagne ! Vous avez trouve la bonne combinaison en %d essais !\n\n", nbTour);
 	retourner_menu();
@@ -125,7 +148,7 @@ void menu() {
 	int choix = 0;
 
 	system("cls");
-	printf("\t \t --- Bienvenue sur MASTERMIND ---\n\n");
+	afficher_image();
 	printf("1. Jouer\n");
 	printf("2. Regles du jeu\n");
 	printf("3. Credits du jeu\n");
@@ -134,7 +157,7 @@ void menu() {
 	scanf("%d", &choix);
 	while (choix < 1 || choix > 4) {
 		system("cls");
-		printf("\t \t --- Bienvenue sur MASTERMIND ---\n\n");
+		afficher_image();
 		printf("1. Jouer\n");
 		printf("2. Regles du jeu\n");
 		printf("3. Credits du jeu\n");
@@ -167,6 +190,23 @@ void retourner_menu() {
         scanf("%d", &leave);
     }
     menu();
+}
+
+// Afficher le logo
+void afficher_image()
+{
+    char read_string[128];
+ 	char *fichier = "logo.txt";
+    FILE *fptr = NULL;
+ 
+    if((fptr = fopen(fichier,"r")) == NULL) {
+        return;
+    }
+ 
+    while(fgets(read_string,sizeof(read_string),fptr) != NULL)
+        printf("%s",read_string);
+    printf("\n\n\n");
+    fclose(fptr);
 }
 
 
