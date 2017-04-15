@@ -3,220 +3,84 @@
 #include <time.h>
 #include <stdbool.h>
 
-/*void saisie(int monde[11][4])
-{
-	int ut1, ut2, ut3, ut4, nbUt, rt, i, j, v, w, x, y;
-
-	printf("Donnez un nombre compris entre 1111 et 6666 ne contenant que des chiffres compris entre 1 et 6 : \n");
-	scanf("%d",&rt);
-	nbUt = rt;
-	ut1 = rt/1000;
-	rt = rt%1000;
-	ut2 = rt/100;
-	rt = rt%100;
-	ut3 = rt/10;
-	rt = rt%10;
-	ut4 = rt;
-	while((ut1>6)||(ut1<1)||(ut2>6)||(ut2<1)||(ut3>6)||(ut3<1)||(ut4>6)||(ut4<1)||(nbUt<1111)||(nbUt>6666))
-	{
-		printf("Mauvaise saisie\n Veuillez reecrire votre serie de chiffre compris entre 1 et 6 :\n");
-		scanf("%d",&rt);
-		nbUt = rt;
-		ut1 = rt/1000;
-		rt = rt%1000;
-		ut2 = rt/100;
-		rt = rt%100;
-		ut3 = rt/10;
-		rt = rt%10;
-		ut4 = rt;
-	}
-	/* Test de valeur du nombre entré par l'utilisateur :
-	printf("ut1 = %d\n", ut1);
-	printf("ut2 = %d\n", ut2);
-	printf("ut3 = %d\n", ut3);
-	printf("ut4 = %d\n", ut4);*/
-	/*for(i=0;i<11;i++)
-	{
-		for(j=0;j<4;j++)
-		{
-			monde[i][j] = 0;
-		}
-	}
-	srand(time(NULL));
-	v = rand()%6+1;
-	w = rand()%6+1;
-	x = rand()%6+1;
-	y = rand()%6+1;
-	// Autre manière d'entrer un nombre aléatoire mais deffectueux :
-	/*for(i=0;i<4;i++)
-	{
-		monde[i][0] = rand()%6+1;
-	}*/
-	/*monde[0][0] = v;
-	monde[0][1] = w;
-	monde[0][2] = x;
-	monde[0][3] = y;
-	printf("v = %d\n", v);
-	printf("w = %d\n", w);
-	printf("x = %d\n", x);
-	printf("y = %d\n", y);	
-	monde[1][0] = ut1;
-	monde[1][1] = ut2;
-	monde[1][2] = ut3;
-	monde[1][3] = ut4;	
-	for(i=0;i<11;i++)
-	{
-		for(j=0;j<4;j++)
-		{
-			printf("| %d ", monde[i][j]);
-		}
-		printf("|\n");
-	}
-}
-
-void partie(int monde[11][4])
-{
-	int n, nbTour, v, w, x, y, ut1, ut2, ut3, ut4, i, j, nbUt, rt, bn;
-	n = 0;
-	nbTour = 0;
-	i = 0;
-	j = 0;
-	bn = 0;
-	while((n<4)||(nbTour<10))
-	{
-		system("cls");
-		printf("                 || Bonjour ||\n__xX Bienvenue sur le Projet Minster Mind version 1.1.2 Xx__\n  || Code Par Alexis STORAI (081) et Emerik ROYER (081) ||\n");
-		nbTour = nbTour + 1;
-		printf("Donnez votre combinaison suivante");
-		scanf("%d",&rt);
-		nbUt = rt;
-		ut1 = rt/1000;
-		rt = rt%1000;
-		ut2 = rt/100;
-		rt = rt%100;
-		ut3 = rt/10;
-		rt = rt%10;
-		ut4 = rt;
-		while((ut1>6)||(ut1<1)||(ut2>6)||(ut2<1)||(ut3>6)||(ut3<1)||(ut4>6)||(ut4<1)||(nbUt<1111)||(nbUt>6666))
-		{
-			printf("Mauvaise saisie\n Veuillez reecrire votre serie de chiffre compris entre 1 et 6 :\n");
-			scanf("%d",&rt);
-			nbUt = rt;
-			ut1 = rt/1000;
-			rt = rt%1000;
-			ut2 = rt/100;
-			rt = rt%100;
-			ut3 = rt/10;
-			rt = rt%10;
-			ut4 = rt;
-		}
-		printf("%d", nbTour);
-		for(i=0;i<4;i++)
-		{
-			for(j=j;j<j+1;j++)
-			{
-				printf("| %d ", monde[i][j]);
-			}
-			printf("| ");
-		}
-
-		if(monde[0][0]==monde[0][1])
-		{
-			monde[1][4] = monde[1][4] + 1; // monde[1][4]++;
-			monde[0][1] = bn;
-			monde[0][0] = bn;
-			bn = bn - 1;
-		}
-
-
-		if(ut1==v)
-		{
-			printf("o");
-			n = n + 1;
-		}
-		if(ut2 == w)
-		{
-			printf("o");
-			n = n + 1;
-		}
-		if(ut3 == x)
-		{
-			n = n + 1;
-			printf("o");
-		}
-		if(ut4 == y)
-		{
-			printf("o");
-			n = n + 1;
-		}
-		if((ut1!=v)&&((w==ut1)||(x==ut1)||(y==ut1)))
-		{
-			printf("x");
-		}
-		if((ut2!=w)&&((v==ut2)||(x==ut2)||(y==ut2)))
-		{
-			printf("x");
-		}
-		if((ut3!=x)&&((v==ut3)||(w==ut3)||(y==ut3)))
-		{
-			printf("x");
-		}
-		if((ut4!=y)&&((v==ut4)||(w==ut4)||(x==ut4)))
-		{
-			printf("x");
-		}
-		printf("\n");
-	}
-	if((nbTour==10)&&(n==4))
-	{
-		printf("Felicitations, c'est gagne ! Vous avez reussi a trouver le code au bout de %d", nbTour);
-	}
-	if(n==4)
-	{
-		printf("Felicitations, c'est gagne ! Vous avez reussi a trouver le code au bout de %d", nbTour);
-	}
-	if(n<4)
-	{
-		printf("Dommage! n'abandonnes pas si vite, reesaye a nouveau ! =)");
-	}
-}
-*/
-
-int nbTour,win,v,w,x,y; 
-int tour[10][3];
+// Initialisation
+int nbTour,win; 
+int tour[10][5];
 int saisie_table[3];
+int combinaison[3];
 
-static void partie() {
-	nbTour = 1;
-	win = 0;
+void partie();
+void demander_saisie();
+void decompose_saisie();
+void randomize();
+void menu();
+void credits();
+void regles();
+void retourner_menu();
+void sauvegarder_saisie();
+void calculer_points();
+
+
+
+// Fonction pour faire une partie
+void partie() {
+	int i;
+
 	randomize(); // Générer les 4 chiffres aléatoirement
-	while (nbTour < 10 || win < 4) { // Boucle de partie
-		system("cls");
-		printf("                 || Bonjour ||\n__xX Bienvenue sur le Projet Minster Mind version 1.1.0 Xx__\n  || Code Par Alexis STORAI (081) et Emerik ROYER (081) ||\n");
-		demander_saisie();
+	win = 0;
+	nbTour = 1;
 
+	printf("Avant for\n");
+	// Boucle de partie
+	for (nbTour = 1; i<=10;nbTour++) {
+		win = 0;
+
+		printf("\nT%d\n", nbTour);
+		//system("cls");
+		printf("\t \t --- MASTERMIND (Essai %d/10) ---\n", nbTour);
+
+		/*while (i<4) {
+			printf("%d", combinaison[i]);
+			i++;
+		}*/
+		printf("\nT%d\n", nbTour);
+
+		demander_saisie();
+		printf("\nT%d\n", nbTour);
+		//sauvegarder_saisie();
+		printf("\nT%d\n", nbTour);
+		//calculer_points();
+		printf("\nT%d\n", nbTour);
+
+		if (win >= 4) {
+			printf("FIN\n");
+			return;
+		}
 	}
+	printf("après for\n");
+	// Fin de la partie
+	//system("cls");
+	printf("\t \t --- MASTERMIND (Fin de la partie !) ---\n\n");
+	if (nbTour > 10) printf("Dommage :( ! N'abandonnez pas si vite, reesayez a nouveau ! =)\n\n");
+	if (win > 3) printf("Felicitations, c'est gagne ! Vous avez trouve la bonne combinaison en %d essais !\n\n", nbTour);
+	retourner_menu();
 }
 
 
-
-static void demander_saisie() {
+// Fonction pour gérer la saisie des nombres
+void demander_saisie() {
 	int saisie;
-	printf("Saisissez votre serie de chiffres compris entre 1 et 6:\n");
+	printf("-> Saisissez votre serie de 4 chiffres (compris entre 1 et 6):\n");
 	scanf("%d",&saisie);
 	decompose_saisie(saisie);
 	while (saisie_table[0] < 1 || saisie_table[0] > 6 || saisie_table[1] < 1 || saisie_table[1] > 6 || saisie_table[2] < 1 || saisie_table[2] > 6 || saisie_table[3] < 1 || saisie_table[3] > 6) {
-		printf("Mauvaise saisie\n Veuillez reecrire votre serie de chiffre compris entre 1 et 6 :\n");
+		printf("\nMauvaise saisie !\n-> Veuillez reecrire votre serie de 4 chiffres (compris entre 1 et 6): \n");
 		scanf("%d",&saisie);
 		decompose_saisie(saisie);
 	}
-	tour[nbTour - 1][0] = saisie_table[0];
-	tour[nbTour - 1][1] = saisie_table[1];
-	tour[nbTour - 1][2] = saisie_table[2];
-	tour[nbTour - 1][3] = saisie_table[3];
 }
 
-static void decompose_saisie(int saisie) {
+void decompose_saisie(int saisie) {
 	saisie_table[0] = saisie/1000;
 	saisie = saisie%1000;
 	saisie_table[1] = saisie/100;
@@ -226,20 +90,95 @@ static void decompose_saisie(int saisie) {
 	saisie_table[3] = saisie;
 }
 
-static int randomize() {
+// Permet de sauvegarder dans le tableau la saisie du tour
+void sauvegarder_saisie() {
+	int atour = nbTour;
+	tour[atour - 1][0] = saisie_table[0];
+	tour[atour - 1][1] = saisie_table[1];
+	tour[atour - 1][2] = saisie_table[2];
+	tour[atour - 1][3] = saisie_table[3];
+}
+
+// Permet de calculer les points de la ligne
+void calculer_points() {
+	int atour = nbTour;
+	tour[atour - 1][4] = 0;
+	tour[atour - 1][5] = 0;
+	for (int i=0; i<4;i++) {
+		if (tour[atour - 1][i] == combinaison[0] || tour[atour - 1][i] == combinaison[1] || tour[atour - 1][i] == combinaison[2] || tour[atour - 1][i] == combinaison[3]) {
+			if (tour[atour - 1][i] == combinaison[i]) {
+				win++;
+				tour[atour - 1][4] = win;
+			} else {
+				tour[atour - 1][5] = tour[atour - 1][5]++;
+			}
+		}
+	}
+}
+
+// Permet de générer les nombres d'une partie
+void randomize() {
 	srand(time(NULL));
-	v = rand()%6+1;
-	w = rand()%6+1;
-	x = rand()%6+1;
-	y = rand()%6+1;
-	return 0;
+	combinaison[0] = rand()%6+1;
+	combinaison[1] = rand()%6+1;
+	combinaison[2] = rand()%6+1;
+	combinaison[3] = rand()%6+1;
+}
+
+// Menu
+void menu() {
+	int choix = 0;
+
+	system("cls");
+	printf("\t \t --- Bienvenue sur MASTERMIND ---\n\n");
+	printf("1. Jouer\n");
+	printf("2. Regles du jeu\n");
+	printf("3. Credits du jeu\n");
+	printf("4. Quitter\n\n");
+	printf("-> Entrez votre choix: ");
+	scanf("%d", &choix);
+	while (choix < 1 || choix > 4) {
+		system("cls");
+		printf("\t \t --- Bienvenue sur MASTERMIND ---\n\n");
+		printf("1. Jouer\n");
+		printf("2. Regles du jeu\n");
+		printf("3. Credits du jeu\n");
+		printf("4. Quitter\n\n");
+		printf("-> Entrez votre choix (1-4): ");
+        scanf("%d", &choix);
+	}
+	if (choix == 1) partie();
+	if (choix == 2) regles();
+	if (choix == 3) credits();
+	if (choix == 4) exit(0);
+}
+
+void regles() {
+	system("cls");
+    printf("\t \t --- Regles du MASTERMIND ---\nLe but du Mastermind est de resoudre la combinaison de quatre chiffres, generee aleatoirement, le plus rapidement possible... Vous avez seulement 10 essais pour trouver ce nombre.\nA chaque essai vous proposez une combinaison et si vous n'obtenez pas directement la bonne combinaison, vous pouvez voir au bout de la ligne des indications sur votre proposition:\n - 'x' signifie qu'un chiffre est valide mais mal place\n - 'o' signifie qu'un chiffre est bien place\n");
+    retourner_menu();
+}
+
+void credits() {
+	system("cls");
+    printf("\t \t --- Credits du MASTERMIND ---\nVersion: DEBUG\nCode:\n  - Alexis STORAI (081)\n  - Emerik ROYER (081)\n");
+    retourner_menu();
+}
+
+void retourner_menu() {
+	int leave = 0;
+	printf("\n-> Appuyer sur '1' pour retourner au menu: ");
+    while (leave != 1) {
+        scanf("%d", &leave);
+    }
+    menu();
 }
 
 
+// Main
 int main()
 {
-	//saisie(monde);
-	//partie(monde);
-	partie();
+	system("cls");
+	menu();
 	return 0;
 }
