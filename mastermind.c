@@ -27,6 +27,8 @@ void retourner_menu();
 void sauvegarder_saisie();
 void calculer_points();
 void afficher_image();
+void afficher_regles();
+void afficher_credits();
 void partie();
 
 // Test
@@ -114,13 +116,13 @@ void partie() {
 	// Boucle de partie
 	while (nbTour <= 10 && win < 4) {
 		win = 0;
-		//system("cls");
+		system("cls");
 		afficher_image();
 		printf("\t \t --- Essai %d/10 ---\n\n", nbTour);
 
-		for (int i = 0; i < 4; ++i) 
+		/*for (int i = 0; i < 4; ++i) 
 			printf("%d", combinaison[i]);
-		printf("\n");
+		printf("\n");*/
 
 		afficher_tableau();
 		demander_saisie();
@@ -179,13 +181,15 @@ void menu() {
 
 void regles() {
 	system("cls");
-    printf("\t \t --- Regles du MASTERMIND ---\nLe but du Mastermind est de resoudre la combinaison de quatre chiffres, generee aleatoirement, le plus rapidement possible... Vous avez seulement 10 essais pour trouver ce nombre.\nA chaque essai vous proposez une combinaison et si vous n'obtenez pas directement la bonne combinaison, vous pouvez voir au bout de la ligne des indications sur votre proposition:\n - 'x' signifie qu'un chiffre est valide mais mal place\n - 'o' signifie qu'un chiffre est bien place\n");
+	afficher_regles();
+    printf("Le but du Mastermind est de resoudre la combinaison de quatre chiffres, generee aleatoirement, le plus rapidement possible... Vous avez seulement 10 essais pour trouver ce nombre.\nA chaque essai vous proposez une combinaison et si vous n'obtenez pas directement la bonne combinaison, vous pouvez voir au bout de la ligne des indications sur votre proposition:\n - 'x' signifie qu'un chiffre est valide mais mal place\n - 'o' signifie qu'un chiffre est bien place\n");
     retourner_menu();
 }
 
 void credits() {
 	system("cls");
-    printf("\t \t --- Credits du MASTERMIND ---\nVersion: DEBUG\nCode:\n  - Alexis STORAI (081)\n  - Emerik ROYER (081)\n");
+	afficher_credits();
+    printf("Version: 2.0.0\nCode:\n  - Alexis STORAI (081)\n  - Emerik ROYER (081)\n");
     retourner_menu();
 }
 
@@ -211,6 +215,38 @@ void afficher_image()
  
     while(fgets(read_string,sizeof(read_string),fptr) != NULL)
         printf(CYN "%s" RESET,read_string);
+    printf("\n\n\n");
+    fclose(fptr);
+}
+
+void afficher_credits()
+{
+    char read_string[128];
+ 	char *fichier = "credits.txt";
+    FILE *fptr = NULL;
+ 
+    if((fptr = fopen(fichier,"r")) == NULL) {
+        return;
+    }
+ 
+    while(fgets(read_string,sizeof(read_string),fptr) != NULL)
+        printf(YEL "%s" RESET,read_string);
+    printf("\n\n\n");
+    fclose(fptr);
+}
+
+void afficher_regles()
+{
+    char read_string[128];
+ 	char *fichier = "regles.txt";
+    FILE *fptr = NULL;
+ 
+    if((fptr = fopen(fichier,"r")) == NULL) {
+        return;
+    }
+ 
+    while(fgets(read_string,sizeof(read_string),fptr) != NULL)
+        printf(YEL "%s" RESET,read_string);
     printf("\n\n\n");
     fclose(fptr);
 }
