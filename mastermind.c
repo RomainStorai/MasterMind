@@ -20,6 +20,8 @@ void sauvegarder_saisie();
 void calculer_points();
 void partie();
 
+// Test
+
 // Fonction pour gérer la saisie des nombres
 void demander_saisie() {
 	int saisie;
