@@ -2,6 +2,14 @@
 #include <stdlib.h>
 #include <time.h>
 #include <stdbool.h>
+#define RED   "\x1B[31m"
+#define GRN   "\x1B[32m"
+#define YEL   "\x1B[33m"
+#define BLU   "\x1B[34m"
+#define MAG   "\x1B[35m"
+#define CYN   "\x1B[36m"
+#define WHT   "\x1B[37m"
+#define RESET "\x1B[0m"
 
 // Initialisation
 int nbTour,win; 
@@ -26,11 +34,11 @@ void partie();
 // Fonction pour gérer la saisie des nombres
 void demander_saisie() {
 	int saisie;
-	printf("-> Saisissez votre serie de 4 chiffres (compris entre 1 et 6):\n");
+	printf("-> Entrez votre proposition: ");
 	scanf("%d",&saisie);
 	decompose_saisie(saisie);
 	while (saisie_table[0] < 1 || saisie_table[0] > 6 || saisie_table[1] < 1 || saisie_table[1] > 6 || saisie_table[2] < 1 || saisie_table[2] > 6 || saisie_table[3] < 1 || saisie_table[3] > 6) {
-		printf("\nMauvaise saisie !\n-> Veuillez reecrire votre serie de 4 chiffres (compris entre 1 et 6): \n");
+		printf(RED "\nMauvaise saisie !\nVeuillez ecrire une serie de 4 chiffres (compris entre 1 et 6)" RESET "\n-> Entrez votre proposition: ");
 		scanf("%d",&saisie);
 		decompose_saisie(saisie);
 	}
@@ -58,27 +66,25 @@ void sauvegarder_saisie() {
 // Permet d'afficher le tableau
 void afficher_tableau() {
 	for (int i = 0; i < 10; ++i) {
-		if (i >= 11) {
-			printf("%d. | ", i + 1);
-		} else {
-			printf("%d.  | ", i + 1);
-		}
+		printf(GRN "%d." RESET "\t| ", i + 1);
 		if (i <= nbTour - 2) {
 			printf("%d | %d | %d | %d |   ", tour[i][0], tour[i][1], tour[i][2], tour[i][3]);
-			for (int y = 0; y < tour[i][4]; y++) printf("x");
-			for (int z = 0; z < tour[i][5]; z++) printf("o");
+			for (int y = 0; y < tour[i][5]; y++) printf(WHT "x" RESET);
+			for (int z = 0; z < tour[i][4]; z++) printf("o");
 		}
 		printf("\n");
 	}
+	printf("\n\n\n");
 }
 
 // Permet de calculer les points de la ligne
 void calculer_points() {
 	int atour = nbTour;
+    /* @TODO: Empécher la dupplication de chiffre */
 	tour[atour - 1][4] = 0;
 	tour[atour - 1][5] = 0;
 	for (int i=0; i<4;i++) {
-		if (tour[atour - 1][i] == combinaison[0] || tour[atour - 1][i] == combinaison[1] || tour[atour - 1][i] == combinaison[2] || tour[atour - 1][i] == combinaison[3]) {
+			if (tour[atour - 1][i] == combinaison[0] || tour[atour - 1][i] == combinaison[1] || tour[atour - 1][i] == combinaison[2] || tour[atour - 1][i] == combinaison[3]) {
 			if (tour[atour - 1][i] == combinaison[i]) {
 				win++;
 				tour[atour - 1][4] = win;
@@ -108,7 +114,7 @@ void partie() {
 	// Boucle de partie
 	while (nbTour <= 10 && win < 4) {
 		win = 0;
-		system("cls");
+		//system("cls");
 		afficher_image();
 		printf("\t \t --- Essai %d/10 ---\n\n", nbTour);
 
@@ -138,8 +144,8 @@ void partie() {
 	
 	afficher_tableau();
 
-	if (nbTour > 10) printf("Dommage :( ! N'abandonnez pas si vite, reesayez a nouveau ! =)\n\n");
-	if (win > 3) printf("Felicitations, c'est gagne ! Vous avez trouve la bonne combinaison en %d essais !\n\n", nbTour);
+	if (nbTour > 10) printf(YEL "Dommage :( ! N'abandonnez pas si vite, reesayez a nouveau ! =)\n\n");
+	if (win > 3) printf(GRN "Felicitations, c'est gagne ! Vous avez trouve la bonne combinaison en %d essais !\n\n", nbTour);
 	retourner_menu();
 }
 
@@ -185,7 +191,7 @@ void credits() {
 
 void retourner_menu() {
 	int leave = 0;
-	printf("\n-> Appuyer sur '1' pour retourner au menu: ");
+	printf(MAG "\n-> Appuyer sur '1' pour retourner au menu: ");
     while (leave != 1) {
         scanf("%d", &leave);
     }
@@ -204,7 +210,7 @@ void afficher_image()
     }
  
     while(fgets(read_string,sizeof(read_string),fptr) != NULL)
-        printf("%s",read_string);
+        printf(CYN "%s" RESET,read_string);
     printf("\n\n\n");
     fclose(fptr);
 }
