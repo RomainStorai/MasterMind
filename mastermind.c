@@ -23,15 +23,14 @@ void randomize();
 void menu();
 void credits();
 void regles();
+void stats();
 void retourner_menu();
+void retourner_menuopt();
 void sauvegarder_saisie();
 void calculer_points();
-void afficher_image();
-void afficher_regles();
-void afficher_credits();
+void afficher_image(char *p);
 void partie();
-
-// Test
+void sauvegarder_score(int score, int perdu, int gagne);
 
 // Fonction pour gérer la saisie des nombres
 void demander_saisie() {
@@ -71,7 +70,7 @@ void afficher_tableau() {
 		printf(GRN "%d." RESET "\t| ", i + 1);
 		if (i <= nbTour - 2) {
 			printf("%d | %d | %d | %d |   ", tour[i][0], tour[i][1], tour[i][2], tour[i][3]);
-			for (int y = 0; y < tour[i][5]; y++) printf(WHT "x" RESET);
+			for (int y = 0; y < tour[i][5]; y++) printf("x");
 			for (int z = 0; z < tour[i][4]; z++) printf("o");
 		}
 		printf("\n");
@@ -86,11 +85,13 @@ void calculer_points() {
 	tour[atour - 1][4] = 0;
 	tour[atour - 1][5] = 0;
 	for (int i=0; i<4;i++) {
-			if (tour[atour - 1][i] == combinaison[0] || tour[atour - 1][i] == combinaison[1] || tour[atour - 1][i] == combinaison[2] || tour[atour - 1][i] == combinaison[3]) {
+		if (tour[atour - 1][i] == combinaison[0] || tour[atour - 1][i] == combinaison[1] || tour[atour - 1][i] == combinaison[2] || tour[atour - 1][i] == combinaison[3]) {
 			if (tour[atour - 1][i] == combinaison[i]) {
+				printf("+1 O\n");
 				win++;
 				tour[atour - 1][4] = win;
 			} else {
+				printf("+1 X\n");
 				tour[atour - 1][5] = tour[atour - 1][5]++;
 			}
 		}
@@ -116,38 +117,40 @@ void partie() {
 	// Boucle de partie
 	while (nbTour <= 10 && win < 4) {
 		win = 0;
-		system("cls");
-		afficher_image();
+		//system("cls");
+		char *p = "logo.txt";
+		afficher_image(p);
 		printf("\t \t --- Essai %d/10 ---\n\n", nbTour);
 
-		/*for (int i = 0; i < 4; ++i) 
+		for (int i = 0; i < 4; ++i) 
 			printf("%d", combinaison[i]);
-		printf("\n");*/
+		printf("\n");
 
 		afficher_tableau();
 		demander_saisie();
 		sauvegarder_saisie();
 		calculer_points();
-		
-		for (int i = 0; i < tour[nbTour - 1][4]; ++i) 
-			printf("o", combinaison[i], i);
-		printf("\n");
-		for (int i = 0; i < tour[nbTour - 1][5]; ++i) 
-			printf("x", combinaison[i], i);
-		printf("\n");
 
 		nbTour++;
 	}
 
 	// Fin de la partie
 	system("cls");
-	afficher_image();
+
+	char *pp = "logo.txt";
+	afficher_image(pp);
 	printf("\t \t --- Fin de la partie ! ---\n\n");
 	
 	afficher_tableau();
 
-	if (nbTour > 10) printf(YEL "Dommage :( ! N'abandonnez pas si vite, reesayez a nouveau ! =)\n\n");
-	if (win > 3) printf(GRN "Felicitations, c'est gagne ! Vous avez trouve la bonne combinaison en %d essais !\n\n", nbTour);
+	if (nbTour > 10) {
+		printf(YEL "Dommage :( ! N'abandonnez pas si vite, reesayez a nouveau ! =)\n\n");
+		sauvegarder_score(nbTour - 1,1,0);
+	}
+	if (win > 3) {
+		printf(GRN "Felicitations, c'est gagne ! Vous avez trouve la bonne combinaison en %d essais !\n\n", nbTour - 1);
+		sauvegarder_score(nbTour - 1,0,1);
+	}
 	retourner_menu();
 }
 
@@ -156,41 +159,75 @@ void menu() {
 	int choix = 0;
 
 	system("cls");
-	afficher_image();
-	printf("1. Jouer\n");
-	printf("2. Regles du jeu\n");
-	printf("3. Credits du jeu\n");
-	printf("4. Quitter\n\n");
-	printf("-> Entrez votre choix: ");
+	char *p = "logo.txt";
+	afficher_image(p);
+	printf(GRN "1." RESET " Jouer\n");
+	printf(GRN "2." RESET " Regles du jeu\n");
+	printf(GRN "3." RESET " Credits du jeu\n");
+	printf(GRN "4." RESET " Statistiques\n");
+	printf(GRN "5." RESET " Quitter\n\n");
+	printf(MAG "-> Entrez votre choix: ");
 	scanf("%d", &choix);
-	while (choix < 1 || choix > 4) {
+	while (choix < 1 || choix > 5) {
 		system("cls");
-		afficher_image();
-		printf("1. Jouer\n");
-		printf("2. Regles du jeu\n");
-		printf("3. Credits du jeu\n");
-		printf("4. Quitter\n\n");
-		printf("-> Entrez votre choix (1-4): ");
+		char *pp = "logo.txt";
+		afficher_image(pp);
+		printf(GRN "1." RESET " Jouer\n");
+		printf(GRN "2." RESET " Regles du jeu\n");
+		printf(GRN "3." RESET " Credits du jeu\n");
+		printf(GRN "4." RESET " Statistiques\n");
+		printf(GRN "5." RESET " Quitter\n\n");
+		printf(MAG "-> Entrez votre choix (1-5): ");
         scanf("%d", &choix);
 	}
 	if (choix == 1) partie();
 	if (choix == 2) regles();
 	if (choix == 3) credits();
-	if (choix == 4) exit(0);
+	if (choix == 4) stats();
+	if (choix == 5) exit(0);
 }
 
 void regles() {
 	system("cls");
-	afficher_regles();
+	char *p = "regles.txt";
+	afficher_image(p);
     printf("Le but du Mastermind est de resoudre la combinaison de quatre chiffres, generee aleatoirement, le plus rapidement possible... Vous avez seulement 10 essais pour trouver ce nombre.\nA chaque essai vous proposez une combinaison et si vous n'obtenez pas directement la bonne combinaison, vous pouvez voir au bout de la ligne des indications sur votre proposition:\n - 'x' signifie qu'un chiffre est valide mais mal place\n - 'o' signifie qu'un chiffre est bien place\n");
     retourner_menu();
 }
 
 void credits() {
 	system("cls");
-	afficher_credits();
+	char *p = "credits.txt";
+	afficher_image(p);
     printf("Version: 2.0.0\nCode:\n  - Alexis STORAI (081)\n  - Emerik ROYER (081)\n");
     retourner_menu();
+}
+
+void stats() {
+	system("cls");
+	char *p = "stats.txt";
+	afficher_image(p);
+
+	FILE *fichier = fopen("score.txt","r");
+    int score;
+    int partie = 1;
+    int moyen = 0;
+    int gagne = 0;
+    int perdu = 0;
+
+
+    if (fichier != NULL) {
+        fscanf(fichier,"%d-%d-%d-%d-%d",&score,&partie,&gagne,&perdu,&moyen);
+		fclose(fichier);
+		printf("Meilleur score:\t\t" GRN "%d essai(s).\n" RESET, score);
+		printf("Score moyen:\t\t" GRN "%d.\n" RESET, moyen);
+		printf("Nombre de partie:\t" GRN "%d partie(s).\n" RESET, partie);
+		printf("Nombre de victoire:\t" GRN "%d victoire(s).\n" RESET, gagne);
+		printf("Nombre de defaite:\t" GRN "%d defaite(s).\n" RESET, perdu);
+    } else 
+    	printf(RED "Impossible de lire le fichier !\n");
+
+    retourner_menuopt();
 }
 
 void retourner_menu() {
@@ -202,27 +239,32 @@ void retourner_menu() {
     menu();
 }
 
+void retourner_menuopt() {
+	int leave = 0;
+	printf(MAG "\n-> Appuyer sur '1' pour retourner au menu\n" GRN "ou sur '2' pour remettre zero vos Statistiques: ");
+    while (leave != 1 && leave != 2) {
+        scanf("%d", &leave);
+    }
+    if (leave == 1) menu();
+    if (leave == 2) {
+    	system("cls");
+
+		char *p = "stats.txt";
+		afficher_image(p);
+
+		FILE *fichier = fopen("score.txt","w");
+    	fprintf(fichier,"%d-%d-%d-%d-%d",0,0,0,0,0);
+
+    	fclose(fichier);
+    	printf(GRN "Vos Statistiques sont comme neuf !\n");
+    	retourner_menu();
+    }
+}
+
 // Afficher le logo
-void afficher_image()
-{
+void afficher_image(char *p) {
     char read_string[128];
- 	char *fichier = "logo.txt";
-    FILE *fptr = NULL;
- 
-    if((fptr = fopen(fichier,"r")) == NULL) {
-        return;
-    }
- 
-    while(fgets(read_string,sizeof(read_string),fptr) != NULL)
-        printf(CYN "%s" RESET,read_string);
-    printf("\n\n\n");
-    fclose(fptr);
-}
-
-void afficher_credits()
-{
-    char read_string[128];
- 	char *fichier = "credits.txt";
+ 	char *fichier = p;
     FILE *fptr = NULL;
  
     if((fptr = fopen(fichier,"r")) == NULL) {
@@ -235,20 +277,32 @@ void afficher_credits()
     fclose(fptr);
 }
 
-void afficher_regles()
+// Statistiques
+void sauvegarder_score(int score, int perdu, int gagne)
 {
-    char read_string[128];
- 	char *fichier = "regles.txt";
-    FILE *fptr = NULL;
- 
-    if((fptr = fopen(fichier,"r")) == NULL) {
-        return;
+    FILE *fichier = fopen("score.txt","r");
+    int scorefichier;
+    int partie = 1;
+    int moyen = 0;
+    int gagneFichier = 0;
+    int perduFichier = 0;
+
+
+    if (fichier != NULL) {
+        fscanf(fichier,"%d-%d-%d-%d-%d",&scorefichier,&partie,&gagneFichier,&perduFichier,&moyen);
+
+        fclose(fichier);
+
+        fichier = fopen("score.txt","w");
+        if (scorefichier < score) score = scorefichier; 
+        if (gagne == 1) moyen = (moyen + score)/(gagneFichier + gagne);
+        fprintf(fichier,"%d-%d-%d-%d-%d",score,partie + 1,gagneFichier + gagne,perduFichier + perdu,moyen);
+    } else {
+    	if (gagne == 1) moyen = score;
+    	fprintf(fichier,"%d-%d-%d-%d-%d",score,partie,gagne,perdu,moyen);
     }
- 
-    while(fgets(read_string,sizeof(read_string),fptr) != NULL)
-        printf(YEL "%s" RESET,read_string);
-    printf("\n\n\n");
-    fclose(fptr);
+
+    fclose(fichier);
 }
 
 
