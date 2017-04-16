@@ -294,7 +294,7 @@ void sauvegarder_score(int score, int perdu, int gagne)
         fclose(fichier);
 
         fichier = fopen("score.txt","w");
-        if (scorefichier < score) score = scorefichier; 
+        if (scorefichier < score && scorefichier != 0) score = scorefichier; 
         if (gagne == 1) moyen = (moyen + score)/(gagneFichier + gagne);
         fprintf(fichier,"%d-%d-%d-%d-%d",score,partie + 1,gagneFichier + gagne,perduFichier + perdu,moyen);
     } else {
