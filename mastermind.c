@@ -24,13 +24,17 @@ void menu();
 void credits();
 void regles();
 void stats();
+void quitter();
 void retourner_menu();
 void retourner_menuopt();
 void sauvegarder_saisie();
 void calculer_points();
 void afficher_image(char *p);
+void afficher_image_t(char *p);
 void partie();
+void attendre_ms(int milliseconds);
 void sauvegarder_score(int score, int perdu, int gagne);
+int nanosleep(const struct timespec *req, struct timespec *rem);
 
 // Fonction pour gérer la saisie des nombres
 void demander_saisie() {
@@ -67,11 +71,11 @@ void sauvegarder_saisie() {
 // Permet d'afficher le tableau
 void afficher_tableau() {
 	for (int i = 0; i < 10; ++i) {
-		printf(GRN "%d." RESET "\t| ", i + 1);
+		printf(GRN "%d." RESET "\t|  ", i + 1);
 		if (i <= nbTour - 2) {
-			printf("%d | %d | %d | %d |   ", tour[i][0], tour[i][1], tour[i][2], tour[i][3]);
-			for (int y = 0; y < tour[i][5]; y++) printf("x");
-			for (int z = 0; z < tour[i][4]; z++) printf("o");
+			printf("%d  |  %d  |  %d  |  %d  |    ", tour[i][0], tour[i][1], tour[i][2], tour[i][3]);
+			for (int y = 0; y < tour[i][5]; y++) printf(CYN "x" RESET);
+			for (int z = 0; z < tour[i][4]; z++) printf(GRN "o" RESET);
 		}
 		printf("\n");
 	}
@@ -87,13 +91,10 @@ void calculer_points() {
 	for (int i=0; i<4;i++) {
 		if (tour[atour - 1][i] == combinaison[0] || tour[atour - 1][i] == combinaison[1] || tour[atour - 1][i] == combinaison[2] || tour[atour - 1][i] == combinaison[3]) {
 			if (tour[atour - 1][i] == combinaison[i]) {
-				printf("+1 O\n");
 				win++;
 				tour[atour - 1][4] = win;
-			} else {
-				printf("+1 X\n");
-				tour[atour - 1][5] = tour[atour - 1][5]++;
-			}
+			} else
+				tour[atour - 1][5] = tour[atour - 1][5] + 1;
 		}
 	}
 }
@@ -117,10 +118,10 @@ void partie() {
 	// Boucle de partie
 	while (nbTour <= 10 && win < 4) {
 		win = 0;
-		//system("cls");
+		system("cls");
 		char *p = "logo.txt";
 		afficher_image(p);
-		printf("\t \t --- Essai %d/10 ---\n\n", nbTour);
+		printf("\t\t\t --- Essai %d/10 ---\n\n", nbTour);
 
 		for (int i = 0; i < 4; ++i) 
 			printf("%d", combinaison[i]);
@@ -139,16 +140,16 @@ void partie() {
 
 	char *pp = "logo.txt";
 	afficher_image(pp);
-	printf("\t \t --- Fin de la partie ! ---\n\n");
+	printf("\t\t\t --- Fin de la partie ! ---\n\n");
 	
 	afficher_tableau();
 
 	if (nbTour > 10) {
-		printf(YEL "Dommage :( ! N'abandonnez pas si vite, reesayez a nouveau ! =)\n\n");
+		printf(YEL "\t\tDommage :( ! N'abandonnez pas si vite, reesayez a nouveau ! =)\n\n");
 		sauvegarder_score(nbTour - 1,1,0);
 	}
 	if (win > 3) {
-		printf(GRN "Felicitations, c'est gagne ! Vous avez trouve la bonne combinaison en %d essais !\n\n", nbTour - 1);
+		printf(GRN "\t\tFelicitations, c'est gagne !\n\tVous avez trouve la bonne combinaison en %d essais !\n\n", nbTour - 1);
 		sauvegarder_score(nbTour - 1,0,1);
 	}
 	retourner_menu();
@@ -161,22 +162,22 @@ void menu() {
 	system("cls");
 	char *p = "logo.txt";
 	afficher_image(p);
-	printf(GRN "1." RESET " Jouer\n");
-	printf(GRN "2." RESET " Regles du jeu\n");
-	printf(GRN "3." RESET " Credits du jeu\n");
-	printf(GRN "4." RESET " Statistiques\n");
-	printf(GRN "5." RESET " Quitter\n\n");
+	printf(GRN "\t1." RESET " Jouer\n");
+	printf(GRN "\t2." RESET " Regles du jeu\n");
+	printf(GRN "\t3." RESET " Credits du jeu\n");
+	printf(GRN "\t4." RESET " Statistiques\n");
+	printf(GRN "\t5." RESET " Quitter\n\n");
 	printf(MAG "-> Entrez votre choix: ");
 	scanf("%d", &choix);
 	while (choix < 1 || choix > 5) {
 		system("cls");
 		char *pp = "logo.txt";
 		afficher_image(pp);
-		printf(GRN "1." RESET " Jouer\n");
-		printf(GRN "2." RESET " Regles du jeu\n");
-		printf(GRN "3." RESET " Credits du jeu\n");
-		printf(GRN "4." RESET " Statistiques\n");
-		printf(GRN "5." RESET " Quitter\n\n");
+		printf(GRN "\t1." RESET " Jouer\n");
+		printf(GRN "\t2." RESET " Regles du jeu\n");
+		printf(GRN "\t3." RESET " Credits du jeu\n");
+		printf(GRN "\t4." RESET " Statistiques\n");
+		printf(GRN "\t5." RESET " Quitter\n\n");
 		printf(MAG "-> Entrez votre choix (1-5): ");
         scanf("%d", &choix);
 	}
@@ -184,7 +185,7 @@ void menu() {
 	if (choix == 2) regles();
 	if (choix == 3) credits();
 	if (choix == 4) stats();
-	if (choix == 5) exit(0);
+	if (choix == 5) quitter();
 }
 
 void regles() {
@@ -219,15 +220,24 @@ void stats() {
     if (fichier != NULL) {
         fscanf(fichier,"%d-%d-%d-%d-%d",&score,&partie,&gagne,&perdu,&moyen);
 		fclose(fichier);
-		printf("Meilleur score:\t\t" GRN "%d essai(s).\n" RESET, score);
-		printf("Score moyen:\t\t" GRN "%d.\n" RESET, moyen);
-		printf("Nombre de partie:\t" GRN "%d partie(s).\n" RESET, partie);
-		printf("Nombre de victoire:\t" GRN "%d victoire(s).\n" RESET, gagne);
-		printf("Nombre de defaite:\t" GRN "%d defaite(s).\n" RESET, perdu);
+		printf("\t\tMeilleur score:\t\t" GRN "%d essai(s).\n" RESET, score);
+		printf("\t\tScore moyen:\t\t" GRN "%d.\n" RESET, moyen);
+		printf("\t\tNombre de partie:\t" GRN "%d partie(s).\n" RESET, partie);
+		printf("\t\tNombre de victoire:\t" GRN "%d victoire(s).\n" RESET, gagne);
+		printf("\t\tNombre de defaite:\t" GRN "%d defaite(s).\n" RESET, perdu);
     } else 
     	printf(RED "Impossible de lire le fichier !\n");
 
     retourner_menuopt();
+}
+
+void quitter() {
+	system("cls");
+	char *p = "logo.txt";
+	afficher_image(p);
+	printf(RED "\t\tVous quittez deja ? :( A bientot !\n");
+	attendre_ms(3000);
+	exit(0);
 }
 
 void retourner_menu() {
@@ -256,7 +266,7 @@ void retourner_menuopt() {
     	fprintf(fichier,"%d-%d-%d-%d-%d",0,0,0,0,0);
 
     	fclose(fichier);
-    	printf(GRN "Vos Statistiques sont comme neuf !\n");
+    	printf(GRN "\t\tVos Statistiques sont comme neuf !\n");
     	retourner_menu();
     }
 }
@@ -275,6 +285,32 @@ void afficher_image(char *p) {
         printf(YEL "%s" RESET,read_string);
     printf("\n\n\n");
     fclose(fptr);
+}
+
+// Afficher le logo avec délai
+void afficher_image_t(char *p) {
+    char read_string[128];
+ 	char *fichier = p;
+    FILE *fptr = NULL;
+ 
+    if((fptr = fopen(fichier,"r")) == NULL) {
+        return;
+    }
+ 
+    while(fgets(read_string,sizeof(read_string),fptr) != NULL) {
+        printf(YEL "%s" RESET,read_string);
+       	attendre_ms(100);
+    }
+    printf("\n\n");
+    attendre_ms(300);
+    printf(GRN "\tJeu developpe par:\t"WHT"- Alexis STORAI (081)\n");
+    attendre_ms(100);
+    printf("\t\t\t\t- Emerik ROYER (081)\n");
+    attendre_ms(100);
+    printf("\n\n");
+    printf(CYN "\t\tCopyrights 2017 - UniLaSalle\n");
+    fclose(fptr);
+    attendre_ms(3600);
 }
 
 // Statistiques
@@ -305,11 +341,20 @@ void sauvegarder_score(int score, int perdu, int gagne)
     fclose(fichier);
 }
 
+// Permet d'attendre un certain temps en millisecondes
+void attendre_ms(int milliseconds) {
+    struct timespec ts;
+    ts.tv_sec = milliseconds / 1000;
+    ts.tv_nsec = (milliseconds % 1000) * 1000000;
+    nanosleep(&ts, NULL);
+}
 
 // Main
 int main()
 {
 	system("cls");
+	char *p = "logo.txt";
+	afficher_image_t(p);
 	menu();
 	return 0;
 }
