@@ -314,8 +314,7 @@ void afficher_image_t(char *p) {
 }
 
 // Statistiques
-void sauvegarder_score(int score, int perdu, int gagne)
-{
+void sauvegarder_score(int score, int perdu, int gagne) {
     FILE *fichier = fopen("score.txt","r");
     int scorefichier;
     int partie = 1;
@@ -334,6 +333,8 @@ void sauvegarder_score(int score, int perdu, int gagne)
         if (gagne == 1) moyen = (moyen + score)/(gagneFichier + gagne);
         fprintf(fichier,"%d-%d-%d-%d-%d",score,partie + 1,gagneFichier + gagne,perduFichier + perdu,moyen);
     } else {
+    	fclose(fichier);
+    	fichier = fopen("score.txt","w");
     	if (gagne == 1) moyen = score;
     	fprintf(fichier,"%d-%d-%d-%d-%d",score,partie,gagne,perdu,moyen);
     }
@@ -343,7 +344,7 @@ void sauvegarder_score(int score, int perdu, int gagne)
 
 // Permet d'attendre un certain temps en millisecondes
 void attendre_ms(int milliseconds) {
-    struct timespec ts;
+	struct timespec ts;
     ts.tv_sec = milliseconds / 1000;
     ts.tv_nsec = (milliseconds % 1000) * 1000000;
     nanosleep(&ts, NULL);
