@@ -1,5 +1,7 @@
 @echo off
 
+
+
 rem -------------------------------------------------------------------------
 set DLOAD_SCRIPT=script.vbs
 echo Option Explicit                                                    >  %DLOAD_SCRIPT%
@@ -33,18 +35,34 @@ echo.                                                                   >> %DLOA
 rem -------------------------------------------------------------------------
 
 if not exist "src" mkdir src
-if not exist "src/res" mkdir src/res
+
+cd src
+if not exist "res" mkdir res
+
+cd ../
 echo #########################
+
 echo #       Mastermind      #
+
 echo #########################
+
 echo Mise a jour de Mastermind...
+
 cscript //Nologo %DLOAD_SCRIPT% https://github.com/RomainStorai/MasterMind/blob/master/mastermind.exe?raw=true src/Mastermind.exe
 
-if not exist "src/res/credits.txt" cscript //Nologo %DLOAD_SCRIPT% https://github.com/RomainStorai/MasterMind/blob/master/res/credits.txt?raw=true src/res/credits.txt
-if not exist "src/res/logo.txt" cscript //Nologo %DLOAD_SCRIPT% https://github.com/RomainStorai/MasterMind/blob/master/res/logo.txt?raw=true src/res/logo.txt
-if not exist "src/res/egle.txt" cscript //Nologo %DLOAD_SCRIPT% https://github.com/RomainStorai/MasterMind/blob/master/res/regles.txt?raw=true src/res/regles.txt
-if not exist "src/res/score.txt" cscript //Nologo %DLOAD_SCRIPT% https://github.com/RomainStorai/MasterMind/blob/master/res/score.txt?raw=true src/res/score.txt
-if not exist "src/res/stats.txt" cscript //Nologo %DLOAD_SCRIPT% https://github.com/RomainStorai/MasterMind/blob/master/res/stats.txt?raw=true src/res/stats.txt
 
-src/Mastermind.exe
-cscript //Nologo %DLOAD_SCRIPT% https://github.com/RomainStorai/MasterMind/blob/master/dl.bat?raw=true %~n0.bat
+if not exist "src/res/credits.txt" cscript //Nologo %DLOAD_SCRIPT% https://github.com/RomainStorai/MasterMind/blob/master/res/credits.txt src/res/credits.txt
+
+if not exist "src/res/logo.txt" cscript //Nologo %DLOAD_SCRIPT% https://raw.githubusercontent.com/RomainStorai/MasterMind/master/res/logo.txt src/res/logo.txt
+
+if not exist "src/res/egle.txt" cscript //Nologo %DLOAD_SCRIPT% https://raw.githubusercontent.com/RomainStorai/MasterMind/master/res/regles.txt src/res/regles.txt
+
+if not exist "src/res/score.txt" cscript //Nologo %DLOAD_SCRIPT% https://raw.githubusercontent.com/RomainStorai/MasterMind/master/res/score.txt src/res/score.txt
+
+if not exist "src/res/stats.txt" cscript //Nologo %DLOAD_SCRIPT% https://raw.githubusercontent.com/RomainStorai/MasterMind/master/res/stats.txt src/res/stats.txt
+
+
+cscript //Nologo %DLOAD_SCRIPT% https://raw.githubusercontent.com/RomainStorai/MasterMind/master/dl.bat %~n0.bat
+del script.vbs
+cd src
+Mastermind.exe
