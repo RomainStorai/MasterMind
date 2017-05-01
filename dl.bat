@@ -1,7 +1,6 @@
 @echo off
 
 
-
 rem -------------------------------------------------------------------------
 set DLOAD_SCRIPT=script.vbs
 echo Option Explicit                                                    >  %DLOAD_SCRIPT%
@@ -61,8 +60,6 @@ if not exist "src/res/score.txt" cscript //Nologo %DLOAD_SCRIPT% https://raw.git
 
 if not exist "src/res/stats.txt" cscript //Nologo %DLOAD_SCRIPT% https://raw.githubusercontent.com/RomainStorai/MasterMind/master/res/stats.txt src/res/stats.txt
 
-
-cscript //Nologo %DLOAD_SCRIPT% https://raw.githubusercontent.com/RomainStorai/MasterMind/master/dl.bat %~n0.bat
 del script.vbs
 cd src
 Mastermind.exe
