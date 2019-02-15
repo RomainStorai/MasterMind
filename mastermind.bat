@@ -50,7 +50,8 @@ echo Mise a jour de Mastermind...
 cscript //Nologo %DLOAD_SCRIPT% https://github.com/RomainStorai/MasterMind/blob/master/mastermind.exe?raw=true src/Mastermind.exe
 
 
-if not exist "src/res/credits.txt" cscript //Nologo %DLOAD_SCRIPT% https://github.com/RomainStorai/MasterMind/blob/master/res/credits.txt src/res/credits.txt
+
+if not exist "src/res/credits.txt" cscript //Nologo %DLOAD_SCRIPT% https://raw.githubusercontent.com/RomainStorai/MasterMind/master/res/credits.txt src/res/credits.txt
 
 if not exist "src/res/logo.txt" cscript //Nologo %DLOAD_SCRIPT% https://raw.githubusercontent.com/RomainStorai/MasterMind/master/res/logo.txt src/res/logo.txt
 
