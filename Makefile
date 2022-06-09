@@ -1,5 +1,5 @@
-OBJS	= mastermind.o
-SOURCE	= mastermind.c
+OBJS	= mastermind.3.o
+SOURCE	= mastermind.3.c
 HEADER	= 
 OUT	= MasterMind.exe
 CC	 = gcc
