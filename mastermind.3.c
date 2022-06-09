@@ -241,7 +241,7 @@ void credits() {
 	system("cls");
 	char *p = "res/credits.txt";
 	afficher_image(p);
-    printf("Version: 2.0.0\nCode:\n  - Alexis STORAI (081)\n  - Emerik ROYER (081)\n");
+    printf("Version: 2.1.0\nCode: Romain Storaï\n");
     retourner_menu();
 }
 
